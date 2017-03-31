@@ -10,7 +10,8 @@ function Tree(nodeval) {
   this.root = new Node(nodeval);
 }
 
-Tree.prototype.traverseLDR = function() {
+Tree.prototype.traverseLDR = function(fn) {
+  console.log('\nLDR:');
   nodeLDR(this.root);
 
   function nodeLDR(node) {
@@ -18,11 +19,50 @@ Tree.prototype.traverseLDR = function() {
       nodeLDR(node.left);
     }
 
-    console.log(node.val);
+    fn(node.val);
 
     if (node.right) {
       nodeLDR(node.right);
     }
+
+    return;
+  }
+}
+
+Tree.prototype.traverseDLR = function(fn) {
+  console.log('\nDLR:');
+  nodeDLR(this.root);
+
+  function nodeDLR(node) {
+    fn(node.val);
+
+    if (node.left) {
+      nodeDLR(node.left);
+    }
+
+    if (node.right) {
+      nodeDLR(node.right);
+    }
+
+    return;
+  }
+}
+
+Tree.prototype.traverseLRD = function(fn) {
+  console.log('\nLRD:');
+  nodeLRD(this.root);
+
+  function nodeLRD(node) {
+
+    if (node.left) {
+      nodeLRD(node.left);
+    }
+
+    if (node.right) {
+      nodeLRD(node.right);
+    }
+
+    fn(node.val);
 
     return;
   }
@@ -45,4 +85,14 @@ myTree.root.right.left.right = new Node('M');
 myTree.root.right.right.left = new Node('N');
 myTree.root.right.right.right = new Node('O');
 
-myTree.traverseLDR();
+myTree.traverseLDR( function(val) {
+  console.log(val);
+});
+
+myTree.traverseDLR( function(val) {
+  console.log(val);
+});
+
+myTree.traverseLRD( function(val) {
+  console.log(val);
+});
